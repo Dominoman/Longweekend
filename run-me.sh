@@ -13,3 +13,12 @@ fi
 if [ -f migrations/alembic.ini ] ; then
   /home/$USER/.local/bin/uv run flask db upgrade
 fi
+
+#Replace old cron job
+currentpath=$(pwd)
+username=$(whoami)
+groupname=$(id -gn)
+crontab -l | grep -v "LongWeekend" > newcron
+echo "30 */6 * * * cd $currentpath && /home/$username/.local/bin/uv run flask scan >> $currentpath/log.log 2>&1" >> newcron
+crontab newcron
+rm newcron

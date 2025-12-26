@@ -31,13 +31,12 @@ class RouteCache:
 
 
 def save_json(json_data:dict, range_start:datetime, save_dir:str)->None:
-    if save_dir == "":
+    if not save_dir:
         return
-    if not os.path.exists(save_dir):
-        os.makedirs(save_dir)
-    file_name = f"{save_dir}/{datetime.now().strftime('%Y%m%d%H%M%S')}-{range_start.strftime('%Y%m')}.json"
-    with open(file_name, "w") as fo:
-        json.dump(json_data, fo, indent=4)
+    os.makedirs(save_dir,exist_ok=True)
+    file_name = os.path.join(save_dir,f"{datetime.now().strftime('%Y%m%d%H%M%S')}-{range_start.strftime('%Y%m')}.json")
+    with open(file_name, "w", encoding="utf-8") as fo:
+        json.dump(json_data, fo, indent=4, ensure_ascii=False)
 
 
 def add_itinerary(itinerary:dict)->Itinerary:
@@ -70,6 +69,12 @@ def add_itinerary(itinerary:dict)->Itinerary:
 
 route_cache = RouteCache()
 
+
+def update_route(old_route: Route, diff: dict[str, tuple[str, str]])->None:
+    for k, v in diff.items():
+        if k not in ["local_departure", "local_arrival"]:
+            old_route.__setattr__(k, v[1])
+
 def add_route(parent_itinerary:Itinerary, route:dict)->bool:
     local_departure = datetime.strptime(route["local_departure"], KIWI_DATETIME_FORMAT)
     local_arrival = datetime.strptime(route["local_arrival"], KIWI_DATETIME_FORMAT)
@@ -94,6 +99,9 @@ def add_route(parent_itinerary:Itinerary, route:dict)->bool:
         parent_itinerary.routes.append(new_route)
         route_cache.add_route(new_route)
         return True
+    diff = old_route.compare(new_route)
+    if len(diff)>0:
+        update_route(old_route, diff)
     parent_itinerary.routes.append(old_route)
     return False
 
@@ -154,7 +162,7 @@ def import_jsons():
     pbar = tqdm(all_jsons, desc="Processing json files", unit="file", ncols=100, mininterval=1.0)
     for file in pbar:
         with open(os.path.join(current_app.config['SAVEDIR'],file),'r') as fo:
-            data = json.loads(fo.read())
+            data = json.load(fo)
             timestamp = datetime.strptime(file[:14], "%Y%m%d%H%M%S")
             range_start = datetime.strptime(file[15:21] + "01", "%Y%m%d").date()
             range_end = range_start + relativedelta(months=1, days=-1)
