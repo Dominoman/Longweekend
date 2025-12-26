@@ -6,7 +6,7 @@ After=network.target
 User=%username%
 Group=%groupname%
 WorkingDirectory=%currentpath%
-ExecStart=%currentpath%/bin/gunicorn --workers 2 --bind 0.0.0.0:5001 --timeout 240 run:app
+ExecStart=%currentpath%/.venv/bin/gunicorn --workers 2 --bind 0.0.0.0:5001 --timeout 240 run:app
 Restart=always
 
 [Install]
