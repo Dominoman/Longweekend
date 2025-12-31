@@ -10,7 +10,7 @@ from dateutil.relativedelta import relativedelta
 from flask import current_app
 from flask.cli import with_appcontext
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import select, func
+from sqlalchemy import select, func, delete
 from tqdm import tqdm
 
 from app import db
@@ -49,41 +49,34 @@ class DbUtils:
         """
         Deletes the given search and all related itineraries and unused routes from the database.
         """
-        # gather itineraries for this search
         itineraries = list(search.itineraries)
         itinerary_rowids = [it.rowid for it in itineraries]
 
-        # collect route rowids referenced by these itineraries
-        route_rowids: set[int] = set()
-        for it in itineraries:
-            for r in it.routes:
-                if getattr(r, "rowid", None) is not None:
-                    route_rowids.add(r.rowid)
+        subq = select(t_itinerary2route.c.route_id).distinct().where(
+            t_itinerary2route.c.itinerary_id.notin_(itinerary_rowids)
+        )
 
-        # delete itineraries
-        for it in itineraries:
-            self.db.session.delete(it)
+        stmt = select(t_itinerary2route.c.route_id).distinct().where(
+            t_itinerary2route.c.itinerary_id.in_(itinerary_rowids),
+            t_itinerary2route.c.route_id.notin_(subq)
+        )
 
-        # for each referenced route, check if it will be orphaned after deletion
-        for route_rowid in route_rowids:
-            # count remaining links for this route excluding the itineraries we just deleted
-            remaining_count_stmt = (
-                select(func.count())
-                .select_from(t_itinerary2route)
-                .where(
-                    t_itinerary2route.c.route_id == route_rowid,
-                    t_itinerary2route.c.itinerary_id.notin_(itinerary_rowids),
-                )
-            )
-            remaining = self.db.session.execute(remaining_count_stmt).scalar_one()
-            if remaining == 0:
-                route_obj = self.db.session.get(Route, route_rowid)
-                if route_obj is not None:
-                    self.db.session.delete(route_obj)
+        rows = db.session.execute(stmt).all()
+        route_rowids = [r[0] for r in rows]
 
-        # finally delete the search record and commit
+        # törlés a kapcsoló táblából
+        stmt = delete(t_itinerary2route).where(t_itinerary2route.c.itinerary_id.in_(itinerary_rowids))
+        self.db.session.execute(stmt)
+
+        stmt = delete(Itinerary).where(Itinerary.rowid.in_(itinerary_rowids))
+        self.db.session.execute(stmt)
+
+        stmt = delete(Route).where(Route.rowid.in_(route_rowids))
+        self.db.session.execute(stmt)
+
         self.db.session.delete(search)
         self.db.session.commit()
+
 
     def delete_notactual_searches(self):
         searches=Search.query.filter_by(actual=0).all()
@@ -246,7 +239,7 @@ def import_jsons():
 @with_appcontext
 def cleanup():
     db_utils=DbUtils(db,current_app.logger)
-    searches = Search.query.filter_by(actual=0)
+    searches = Search.query.filter_by(actual=0).all()
     pbar = tqdm(searches,desc="Delete unused searches", unit="search")
     for search in pbar:
         db_utils.delete_search(search)
