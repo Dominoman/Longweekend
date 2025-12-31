@@ -10,12 +10,13 @@ from dateutil.relativedelta import relativedelta
 from flask import current_app
 from flask.cli import with_appcontext
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import select, func, delete
+from sqlalchemy import select, delete
 from tqdm import tqdm
 
 from app import db
 from app.models import Search, Itinerary, Route, t_itinerary2route
 from common.kiwi import Tequila, KIWI_DATETIME_FORMAT
+
 
 class RouteCache:
     def __init__(self)->None:
@@ -52,18 +53,6 @@ class DbUtils:
         itineraries = list(search.itineraries)
         itinerary_rowids = [it.rowid for it in itineraries]
 
-        subq = select(t_itinerary2route.c.route_id).distinct().where(
-            t_itinerary2route.c.itinerary_id.notin_(itinerary_rowids)
-        )
-
-        stmt = select(t_itinerary2route.c.route_id).distinct().where(
-            t_itinerary2route.c.itinerary_id.in_(itinerary_rowids),
-            t_itinerary2route.c.route_id.notin_(subq)
-        )
-
-        rows = db.session.execute(stmt).all()
-        route_rowids = [r[0] for r in rows]
-
         # törlés a kapcsoló táblából
         stmt = delete(t_itinerary2route).where(t_itinerary2route.c.itinerary_id.in_(itinerary_rowids))
         self.db.session.execute(stmt)
@@ -71,7 +60,9 @@ class DbUtils:
         stmt = delete(Itinerary).where(Itinerary.rowid.in_(itinerary_rowids))
         self.db.session.execute(stmt)
 
-        stmt = delete(Route).where(Route.rowid.in_(route_rowids))
+        subq = select(t_itinerary2route.c.route_id).distinct()
+
+        stmt = delete(Route).where(Route.rowid.notin_(subq))
         self.db.session.execute(stmt)
 
         self.db.session.delete(search)
