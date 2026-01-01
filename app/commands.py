@@ -50,7 +50,7 @@ class DbUtils:
         """
         Deletes the given search and all related itineraries and unused routes from the database.
         """
-        itineraries = list(search.itinerary)
+        itineraries = list(search.itineraries)
         itinerary_rowids = [it.rowid for it in itineraries]
 
         stmt = delete(t_itinerary2route).where(t_itinerary2route.c.itinerary_id.in_(itinerary_rowids))
@@ -66,14 +66,14 @@ class DbUtils:
                 )
             )
         )
-        route_result = self.session.execute(stmt)
+        route_result = self.db.session.execute(stmt)
 
         self.db.session.delete(search)
         self.db.session.commit()
         return 1, itinerary_result.rowcount(), route_result.rowcount(), itinerary2route_result.rowcount()
 
 
-def delete_notactual_searches(self):
+    def delete_notactual_searches(self):
         searches=Search.query.filter_by(actual=0).all()
         for search in searches:
             self.delete_search(search)
