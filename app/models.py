@@ -1,3 +1,5 @@
+from sqlalchemy import Index
+
 from . import db
 
 
@@ -52,7 +54,8 @@ class Itinerary(db.Model):
 t_itinerary2route = db.Table(
     'itinerary2route',
     db.Column('itinerary_id', db.ForeignKey('itinerary.rowid'), primary_key=True, nullable=False),
-    db.Column('route_id', db.ForeignKey('route.rowid'), primary_key=True, nullable=False)
+    db.Column('route_id', db.ForeignKey('route.rowid'), primary_key=True, nullable=False),
+    Index('route_idx', 'route_id')
 )
 
 

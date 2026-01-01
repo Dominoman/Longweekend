@@ -8,5 +8,5 @@ ___
 - ~~CLI scanning~~
 - Web list
 - ~~Deployment~~
-- Clean up
+- ~~Clean up~~
 - Email alert

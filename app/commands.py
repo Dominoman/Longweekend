@@ -212,6 +212,7 @@ def scan():
                     break
         range_start=range_start+relativedelta(months=1,day=1)
     # db_utils.delete_notactual_searches()
+    current_app.logger.info("Finished")
 
 @click.command('import_jsons',short_help='Reimport all json from tmo folder')
 @with_appcontext
@@ -229,6 +230,7 @@ def import_jsons():
             range_start = datetime.strptime(file[15:21] + "01", "%Y%m%d").date()
             range_end = range_start + relativedelta(months=1, days=-1)
             importer.insert_json(data, timestamp=timestamp, range_start=range_start, range_end=range_end, actual=False)
+    current_app.logger.info("Finished")
 
 @click.command('cleanup', short_help='Delete all not actual searches and related records')
 @with_appcontext
