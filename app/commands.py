@@ -10,7 +10,7 @@ from dateutil.relativedelta import relativedelta
 from flask import current_app
 from flask.cli import with_appcontext
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import select, delete
+from sqlalchemy import select, delete, exists
 from tqdm import tqdm
 
 from app import db
@@ -46,30 +46,34 @@ class DbUtils:
         self.logger.info(f"Cleared {updated} active searches")
         return updated
 
-    def delete_search(self,search:Search)->None:
+    def delete_search(self,search:Search)->tuple[int,int,int,int]:
         """
         Deletes the given search and all related itineraries and unused routes from the database.
         """
-        itineraries = list(search.itineraries)
+        itineraries = list(search.itinerary)
         itinerary_rowids = [it.rowid for it in itineraries]
 
-        # törlés a kapcsoló táblából
         stmt = delete(t_itinerary2route).where(t_itinerary2route.c.itinerary_id.in_(itinerary_rowids))
-        self.db.session.execute(stmt)
+        itinerary2route_result = self.db.session.execute(stmt)
 
         stmt = delete(Itinerary).where(Itinerary.rowid.in_(itinerary_rowids))
-        self.db.session.execute(stmt)
+        itinerary_result = self.db.session.execute(stmt)
 
-        subq = select(t_itinerary2route.c.route_id).distinct()
-
-        stmt = delete(Route).where(Route.rowid.notin_(subq))
-        self.db.session.execute(stmt)
+        stmt = delete(Route).where(
+            ~exists(
+                select(1).where(
+                    t_itinerary2route.c.route_id == Route.rowid
+                )
+            )
+        )
+        route_result = self.session.execute(stmt)
 
         self.db.session.delete(search)
         self.db.session.commit()
+        return 1, itinerary_result.rowcount(), route_result.rowcount(), itinerary2route_result.rowcount()
 
 
-    def delete_notactual_searches(self):
+def delete_notactual_searches(self):
         searches=Search.query.filter_by(actual=0).all()
         for search in searches:
             self.delete_search(search)
