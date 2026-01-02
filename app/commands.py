@@ -211,7 +211,7 @@ def scan():
                     importer.insert_json(result, kiwi.search_url, datetime.now(),range_start=range_start, range_end=range_end)
                     break
         range_start=range_start+relativedelta(months=1,day=1)
-    # db_utils.delete_notactual_searches()
+    db_utils.delete_notactual_searches()
     current_app.logger.info("Finished")
 
 @click.command('import_jsons',short_help='Reimport all json from tmo folder')

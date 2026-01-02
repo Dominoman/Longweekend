@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% block title %}Főoldal{% endblock %}
+{% block content %}
+    <!-- Flight Listing Start -->
+    <section class="flight-listing-page mb-60">
+      <div class="container-fluid">
+        <div class="row">
+          
+          <div class="col-xl-12 col-lg-12">
+            <div class="flight-block bg-white light-shadow p-24 br-10 mb-16" data-sal="slide-up" data-sal-duration="800" data-sal-delay="100" data-sal-easing="ease-in-out">
+              <div class="flight-area">
+                <div class="airline-name"> <img src="{{ url_for('static', filename='img/icon-1.png') }}" alt="">
+                  <div>
+                    <h5 class="lightest-black mb-8">Feel Dubai Airline</h5>
+                    <h6 class="dark-gray">Boeing 777-90</h6>
+                  </div>
+                </div>
+                <div class="flight-detail">
+                  <div class="flight-departure">
+                    <h5 class="color-black">12:00</h5>
+                    <h5 class="dark-gray text-end">DUB</h5>
+                  </div>
+                  <div class="d-inline-flex align-items-center gap-8"> <span class="">To</span>
+                    <div class="from-to text-center">
+                      <h5 class="dark-gray">0h 50m</h5>
+                      <img src="{{ url_for('static', filename='img/route-plan.png') }}" alt="">
+                      <h6 class="color-black">1 Stop</h6>
+                    </div>
+                    <span class="">From</span> </div>
+                  <div class="flight-departure">
+                    <h5 class="color-black">12:50</h5>
+                    <h5 class="dark-gray">SHJ</h5>
+                  </div>
+                </div>
+                <div class="flight-button">
+                  <div class="amount">
+                    <h5 class="color-black">$240</h5>
+                    <h6 class="dark-gray text-end">Price</h6>
+                  </div>
+                  <a href="https://www.mytrip.au/flight-booking.html" class="cus-btn btn-sec">Book Now</a> </div>
+              </div>
+              <hr class="bg-light-gray mt-24 mb-24">
+              <div class="d-flex justify-content-between align-items-center">
+                <h5 class="color-black">Monday 14 August</h5>
+                <div> <a href="https://www.mytrip.au/flight-listing.html#" class="accordion-button color-primary h5 collapsed" data-bs-toggle="collapse" data-bs-target="#flightDetail" aria-expanded="true"> <i class="fal fa-chevron-down color-primary "></i>&nbsp;Flight Detail</a> </div>
+              </div>
+            </div>
+            <div id="flightDetail" class="accordion-collapse collapse mb-32" data-bs-parent="#accordionExample">
+              <div class="row bg-white br-10 light-shadow p-24 m-0 align-items-center">
+                <div class="col-lg-3 col-sm-4">
+                  <div class="time-detail">
+                    <h6 class="flight-date mb-32"> 14 August, 2023</h6>
+                    <h6 class="color-black mb-8">Monday, Aug 14 - 12:00</h6>
+                    <h6 class="dark-gray mb-16">0h 50m</h6>
+                    <h6 class="dark-gray">Monday, Aug 14 - 12:50</h6>
+                  </div>
+                </div>
+                <div class="col-lg-9 col-sm-8">
+                  <div class="detail-block">
+                    <div class="d-sm-flex d-block align-items-center gap-24"> <img src="{{ url_for('static', filename='img/icon-1.png') }}" alt="">
+                      <div class="content">
+                        <h6 class="dark-gray">Tpm Line</h6>
+                        <h6 class="dark-gray">Operated by Feel Dubai Airlines</h6>
+                        <h6 class="dark-gray">Economy | Flight FK234 | Aircraft BOEING 777-90</h6>
+                        <h6 class="dark-gray">Adult(s): 25KG luggage free</h6>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Flight Listing End --> 
+{% endblock %}

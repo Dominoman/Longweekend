@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<!-- saved from url=(0041)https://www.mytrip.au/flight-listing.html -->
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="FlyNow HTML5 Template">
+<title>{% block title %}Oldal{% endblock %}</title>
+
+<!-- Favicon -->
+<link rel="shortcut icon" type="image/x-icon" href="{{ url_for('static', filename='img/favicon.png') }}">
+
+<!-- All CSS files -->
+<link rel="stylesheet" href="{{ url_for('static', filename='css/font-awesome.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/slick.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/slick-theme.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/_search-popup.scss') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/aksVideoPlayer.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/datetime.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/classic.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/classic.date.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/jquery.timepicker.min.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/ui-autocomplete.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/ionrangeslider.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/sal.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
+</head>
+
+<body class="o-scroll" id="js-scroll">
+<!-- Main Wrapper Start -->
+<div id="main-wrapper" class="main-wrapper overflow-hidden">
+  <!-- Title-Banner Start -->
+  <div class="title-banner">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="banner-area v-2"> <img src="{{ url_for('static', filename='img/vacation.png') }}" alt="" class="left-image">
+          <div class="content-box text-alignment">
+            <h1 class="fw-700 lightest-black">Flight Listing</h1>
+          </div>
+          <img src="{{ url_for('static', filename='img/plane-2.png') }}" alt="" class="right-image"> </div>
+      </div>
+    </div>
+  </div>
+  <!-- Title-Banner End -->
+
+  <!-- Main Content Start -->
+  <div class="page-content m-0">
+      {% block content %}{% endblock %}
+  </div>
+  <!-- Main Content End -->
+
+</div>
+
+<!-- Jquery Js -->
+<script src="{{ url_for('static', filename='js/jquery-3.6.3.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/popper.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/slick.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/jquery-appear.js') }}"></script>
+<script src="{{ url_for('static', filename='js/jquery-validator.js') }}"></script>
+<script src="{{ url_for('static', filename='js/aksVideoPlayer.js') }}"></script>
+<script src="{{ url_for('static', filename='js/tilt.jquery.js') }}"></script>
+<script src="{{ url_for('static', filename='js/picker.js') }}"></script>
+<script src="{{ url_for('static', filename='js/picker.date.js') }}"></script>
+<script src="{{ url_for('static', filename='js/autoComplete.js') }}"></script>
+<script src="{{ url_for('static', filename='js/jquery.timepicker.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/ionrangeslider.js') }}"></script>
+<script src="{{ url_for('static', filename='js/sal.js') }}"></script>
+
+<!-- Site Scripts -->
+<script src="{{ url_for('static', filename='js/date.js') }}"></script>
+<script src="{{ url_for('static', filename='js/app.js') }}"></script>
+<ul id="ui-id-1" tabindex="0" class="ui-menu ui-widget ui-widget-content ui-autocomplete ui-front" unselectable="on" style="display: none;">
+</ul>
+<div role="status" aria-live="assertive" aria-relevant="additions" class="ui-helper-hidden-accessible"></div>
+<ul id="ui-id-2" tabindex="0" class="ui-menu ui-widget ui-widget-content ui-autocomplete ui-front" unselectable="on" style="display: none;">
+</ul>
+<div role="status" aria-live="assertive" aria-relevant="additions" class="ui-helper-hidden-accessible"></div>
+<ul id="ui-id-3" tabindex="0" class="ui-menu ui-widget ui-widget-content ui-autocomplete ui-front" unselectable="on" style="display: none;">
+</ul>
+<div role="status" aria-live="assertive" aria-relevant="additions" class="ui-helper-hidden-accessible"></div>
+<ul id="ui-id-4" tabindex="0" class="ui-menu ui-widget ui-widget-content ui-autocomplete ui-front" unselectable="on" style="display: none;">
+</ul>
+<div role="status" aria-live="assertive" aria-relevant="additions" class="ui-helper-hidden-accessible"></div>
+<ul id="ui-id-5" tabindex="0" class="ui-menu ui-widget ui-widget-content ui-autocomplete ui-front" unselectable="on" style="display: none;">
+</ul>
+<div role="status" aria-live="assertive" aria-relevant="additions" class="ui-helper-hidden-accessible"></div>
+<ul id="ui-id-6" tabindex="0" class="ui-menu ui-widget ui-widget-content ui-autocomplete ui-front" unselectable="on" style="display: none;">
+</ul>
+<div role="status" aria-live="assertive" aria-relevant="additions" class="ui-helper-hidden-accessible"></div>
+<ul id="ui-id-7" tabindex="0" class="ui-menu ui-widget ui-widget-content ui-autocomplete ui-front" unselectable="on" style="display: none;">
+</ul>
+<div role="status" aria-live="assertive" aria-relevant="additions" class="ui-helper-hidden-accessible"></div>
+<ul id="ui-id-8" tabindex="0" class="ui-menu ui-widget ui-widget-content ui-autocomplete ui-front" unselectable="on" style="display: none;">
+</ul>
+<div role="status" aria-live="assertive" aria-relevant="additions" class="ui-helper-hidden-accessible"></div>
+</body>
+</html>
