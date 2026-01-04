@@ -11,7 +11,7 @@ from .. import db
 def index():
     return 'Sabai sabai'
 
-@main.route('/test')
+@main.route('/flights')
 def test():
     with open("sql/monthly_5_cheapest.sql") as f:
         sql = text(f.read())
