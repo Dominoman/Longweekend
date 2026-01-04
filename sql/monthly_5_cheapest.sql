@@ -42,6 +42,7 @@ SELECT
         THEN substr(airlines, 1, instr(airlines, ',') - 1)
         ELSE airlines
     END as firstairline
+
 FROM ranked_per_month
 WHERE month_rank <= 5
 ORDER BY month, price;

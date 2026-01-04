@@ -32,7 +32,25 @@
                     <h5 class="color-black">{{ itinerary.local_arrival[11:16] }}</h5>
                     <h5 class="dark-gray">{{ itinerary.cityTo }}</h5>
                   </div>
+                </div><br/>
+                <div class="flight-detail">
+                  <div class="flight-departure">
+                    <h5 class="color-black">{{ itinerary.rlocal_departure[11:16] }}</h5>
+                    <h5 class="dark-gray text-end">{{ itinerary.cityTo }}</h5>
+                  </div>
+                  <div class="d-inline-flex align-items-center gap-8"> <span class="">To</span>
+                    <div class="from-to text-center">
+                      <h5 class="dark-gray">{{ itinerary.durationReturn | to_time }}</h5>
+                      <img src="{{ url_for('static', filename='img/route-plan.png') }}" alt="">
+                      <h6 class="color-black"><!-- 1 Stop --></h6>
+                    </div>
+                    <span class="">From</span> </div>
+                  <div class="flight-departure">
+                    <h5 class="color-black">{{ itinerary.rlocal_arrival[11:16] }}</h5>
+                    <h5 class="dark-gray">{{ itinerary.cityFrom }}</h5>
+                  </div>
                 </div>
+
                 <div class="flight-button">
                   <div class="amount">
                     <h5 class="color-black">{{ itinerary.price | punctuation}} HUF</h5>
